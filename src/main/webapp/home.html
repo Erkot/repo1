@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        
+    </head>
+    <body onload="aaa()">
+<!--       <div> <form name="loginForm" method="post" action="loginServlet">
+            Username: <input type="text" name="username"/> <br/>
+            Password: <input type="password" name="password"/> <br/>
+            <input type="submit" value="Login" />
+        </form>
+       </div>--><div></div>
+hh<div id="myP" >home </div>
+        
+        <script>
+            function aaa(){$.get('http://localhost:8084/bakar/rest/auth/home2', function(responseText) {
+                    document.getElementById("myP").innerHTML=responseText;
+   // alert(responseText);
+});}</script>
+    </body>
+</html>
