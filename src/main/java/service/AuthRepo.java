@@ -77,7 +77,6 @@ public class AuthRepo extends AbstractFacade<User> {
         }
         String token = authCode + "token";
         return token;
-//      response.sendRedirect("/bakar/login.html?app="+app);
     }
 
     @Path("/login")
