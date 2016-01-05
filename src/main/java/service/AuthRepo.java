@@ -57,6 +57,11 @@ public class AuthRepo extends AbstractFacade<User> {
         return String.valueOf(super.count());
     }
 
+    /**
+     * Triggered by the Bakar
+     * @param authCode
+     * @throws IOException 
+     */
     @GET
     @Path("/authCodeBakarRepo")
     @Produces(MediaType.TEXT_PLAIN)
@@ -79,6 +84,15 @@ public class AuthRepo extends AbstractFacade<User> {
         return token;
     }
 
+    /**
+     * Login by the repo form
+     * @param username
+     * @param pass
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException 
+     */
     @Path("/login")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -90,7 +104,7 @@ public class AuthRepo extends AbstractFacade<User> {
             u.setUser("user8888");
             request.getSession().setAttribute("user", u);
         }
-        response.sendRedirect("/bakar/home.html");
+        response.sendRedirect("/repo1/home.html");
         return username + " " + pass;
     }
 
