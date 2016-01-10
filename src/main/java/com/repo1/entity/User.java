@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.mycompany.dbtest;
+package com.repo1.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -15,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import static javax.swing.text.StyleConstants.Size;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,59 +22,58 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findByIduser", query = "SELECT u FROM User u WHERE u.iduser = :iduser"),
-    @NamedQuery(name = "User.findByUser", query = "SELECT u FROM User u WHERE u.user = :user"),
-    @NamedQuery(name = "User.findByPass", query = "SELECT u FROM User u WHERE u.pass = :pass")})
+    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "iduser")
-    private Integer iduser;
+    @Column(name = "id")
+    private Integer id;
     @Size(max = 45)
-    @Column(name = "user")
-    private String user;
+    @Column(name = "username")
+    private String username;
     @Size(max = 45)
-    @Column(name = "pass")
-    private String pass;
+    @Column(name = "password")
+    private String password;
 
     public User() {
     }
 
     public User(Integer iduser) {
-        this.iduser = iduser;
+        this.id = iduser;
     }
 
-    public Integer getIduser() {
-        return iduser;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIduser(Integer iduser) {
-        this.iduser = iduser;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPass() {
-        return pass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (iduser != null ? iduser.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -91,7 +84,7 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.iduser == null && other.iduser != null) || (this.iduser != null && !this.iduser.equals(other.iduser))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -99,7 +92,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.dbtest.User[ iduser=" + iduser + " ]";
+        return "com.mycompany.dbtest.User[ iduser=" + id + " ]";
     }
     
 }

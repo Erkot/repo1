@@ -32,9 +32,9 @@
           <a class="navbar-brand" href="#">Repo1</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form action="/repo1/rest/auth/login" method="post" class="navbar-form navbar-right">
+          <form action="/repo1/rest/auth/repoLogin" method="post" class="navbar-form navbar-right">
             <div class="form-group">
-              <input name="user" type="text" placeholder="Email" class="form-control">
+              <input name="username" type="text" placeholder="Username" class="form-control">
             </div>
             <div class="form-group">
               <input name="pass" type="password" placeholder="Password" class="form-control">
@@ -61,42 +61,42 @@
       <div class="row" style="border-bottom: 1px solid #888; padding-bottom: 1em">
           <div class="col-md-7"><img src="icon/cloud_256.png" style="margin-left: 25%"></div>
           <div class="col-md-5">
-              <form class="form-horizontal" action='' method="POST">
+              <form class="form-horizontal" action='/repo1/rest/auth/repoReg' method="POST">
   <fieldset>
     <div id="legend">
       <legend>Register</legend>
     </div>
     <div class="control-group">
       <!-- Username -->
-      <label class="control-label"  for="username">Username</label>
+      <label class="control-label"  for="Fullname">Fullname</label>
       <div class="controls">
-        <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
-        <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+        <input type="text" id="Fullname" name="Fullname" placeholder="Full Name" class="input-xlarge">
+<!--        <p class="help-block">Please provide your Name</p>-->
       </div>
     </div>
  
-    <div  style="float: left; position: relative">
+    <div  style="float: left; position: relative; width: 50%">
       <!-- E-mail -->
-      <label class="control-label" for="email">E-mail</label>
+      <label class="control-label" for="Username">Username</label>
       <div class="controls">
-        <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
-        <p class="help-block">Please provide your E-mail</p>
+        <input type="text" id="Username" name="Username" placeholder="Username" class="input-xlarge">
+<!--        <p class="help-block">Username can contain any letters or numbers, without spaces</p>-->
       </div>
     </div>
  
-      <div  style="float: left; position: relative">
+      <div  style="float: left; width: 50%">
       <!-- Password-->
-      <label class="control-label" for="password">Password</label>
+      <label class="control-label" for="Password">Password</label>
       <div class="controls">
-        <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
-        <p class="help-block">Password should be at least 4 characters</p>
+        <input type="password" id="Password" name="password" placeholder="Password" class="input-xlarge">
+<!--        <p class="help-block">Password should be at least 4 characters</p>-->
       </div>
     </div>
  
-    <div class="control-group">
+      <div class="control-group" style="padding-top: 2em; position: relative; float: left">
       <!-- Button -->
       <div class="controls">
-        <button class="btn btn-success">Register</button>
+        <input type="submit" value="Register" class="btn btn-success"/>
       </div>
     </div>
   </fieldset>

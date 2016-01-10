@@ -1,6 +1,6 @@
 package service;
 
-import com.mycompany.dbtest.User;
+import com.repo1.entity.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.GET;
@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/e")
 public class MyResource extends AbstractFacade<User> {
-    @PersistenceContext(unitName = "com.mycompany_dbtest_war_1.0-SNAPSHOTPU")
+    @PersistenceContext(unitName = "com.repo1")
     private EntityManager em;
 
     public MyResource() {
