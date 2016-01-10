@@ -45,15 +45,19 @@ public class AuthRepo {
 //    public AuthRepo() {
 //        super(User.class);
 //    }
+    
+    public Connection getDs() throws NamingException, SQLException{
+        javax.naming.Context initContext = new InitialContext();
+        javax.naming.Context ctx = (javax.naming.Context) initContext.lookup("java:/comp/env");
+        DataSource ds = (DataSource) ctx.lookup("jdbc/repo1");
+        return ds.getConnection();
+    }
     @GET
     @Path("/e")
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() throws SQLException, NamingException {
         int executeUpdate;
-        javax.naming.Context initContext = new InitialContext();
-        javax.naming.Context ctx = (javax.naming.Context) initContext.lookup("java:/comp/env");
-        DataSource ds = (DataSource) ctx.lookup("jdbc/repo1");
-        try (PreparedStatement pstmt = ds.getConnection().prepareStatement("select * from user")) {
+        try (PreparedStatement pstmt = getDs().prepareStatement("select * from user")) {
             executeUpdate = pstmt.getFetchSize();
         }
         return "Got it!" + executeUpdate;
@@ -132,11 +136,14 @@ public class AuthRepo {
     @Path("/repoReg")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void repoReg(@FormParam("Username") String username, @FormParam("password") String password) throws SQLException {
-//        List<User> lstRes = getEntityManager().createNamedQuery("User.findByUsername").setParameter("username",
-//                username).getResultList();
-
-//        if (lstRes.isEmpty()) {
+    public void repoReg(@FormParam("Username") String username, @FormParam("password") String password) throws SQLException, NamingException {
+        PreparedStatement ps = getDs().prepareStatement("Select id from user where username = ?");
+        ps.setString(1, username);
+        ResultSet rs = ps.executeQuery();
+        int fetchSize = rs.getFetchSize();
+        System.out.println("service.AuthRepo.repoReg()"+fetchSize);
+        if (fetchSize==0) {
+            
         // new user
 //            getEntityManager().createNativeQuery("insert into user (username,password) values ("+username+","+password+")");
 //            User user = new User();
@@ -149,7 +156,7 @@ public class AuthRepo {
 //            etx.commit();
 //        } else {
         // notify that the user already exist
-//        }
+        }
     }
 
     /**
