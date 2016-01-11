@@ -141,11 +141,12 @@ public class AuthRepo {
         ps.setString(1, username);
         ResultSet rs = ps.executeQuery();
         int fetchSize = rs.getFetchSize();
-        System.out.println("service.AuthRepo.repoReg()"+fetchSize);
         if (fetchSize==0) {
-            
         // new user
-//            getEntityManager().createNativeQuery("insert into user (username,password) values ("+username+","+password+")");
+           ps = getDs().prepareStatement("insert into user (username,password) values (?,?)");
+           ps.setString(1, username);
+           ps.setString(2, password);
+           ps.executeUpdate();
 //            User user = new User();
 //            user.setUsername(username);
 //            user.setPassword(password);
@@ -154,7 +155,7 @@ public class AuthRepo {
 //            super.create(user);
 //                    getEntityManager().persist(user);
 //            etx.commit();
-//        } else {
+        } else {
         // notify that the user already exist
         }
     }
