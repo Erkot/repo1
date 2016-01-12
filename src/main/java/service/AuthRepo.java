@@ -1,6 +1,7 @@
 package service;
 
 import com.repo1.entity.User;
+import helper.Conn;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,16 +47,19 @@ public class AuthRepo {
 //        super(User.class);
 //    }
     
-    public Connection getDs() throws NamingException, SQLException{
-        javax.naming.Context initContext = new InitialContext();
-        javax.naming.Context ctx = (javax.naming.Context) initContext.lookup("java:/comp/env");
-        DataSource ds = (DataSource) ctx.lookup("jdbc/repo1");
-        return ds.getConnection();
+    public static Connection getDs() throws NamingException, SQLException{
+//        javax.naming.Context initContext = new InitialContext();
+//        javax.naming.Context ctx = (javax.naming.Context) initContext.lookup("java:/comp/env");
+//        DataSource ds = (DataSource) ctx.lookup("jdbc/repo1");
+//        return ds.getConnection();
+          return Conn.getConn();
     }
     @GET
     @Path("/e")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() throws SQLException, NamingException {
+    public String getIt() throws SQLException, NamingException, ClassNotFoundException {
+//                Class myClass = Class.forName("net.sf.log4jdbc.DriverSpy");
+//System.out.println("Number of public methods: " + myClass.getMethods().length);
         int executeUpdate;
         try (PreparedStatement pstmt = getDs().prepareStatement("select * from user")) {
             executeUpdate = pstmt.getFetchSize();
