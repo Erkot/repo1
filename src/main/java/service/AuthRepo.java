@@ -47,13 +47,15 @@ public class AuthRepo {
 //        super(User.class);
 //    }
     
-    public static Connection getDs() throws NamingException, SQLException{
+    public Connection getDs(){
 //        javax.naming.Context initContext = new InitialContext();
 //        javax.naming.Context ctx = (javax.naming.Context) initContext.lookup("java:/comp/env");
 //        DataSource ds = (DataSource) ctx.lookup("jdbc/repo1");
 //        return ds.getConnection();
-          return Conn.getConn();
-    }
+          return Conn.getInstance().MysqlConn;
+   }
+    
+
     @GET
     @Path("/e")
     @Produces(MediaType.TEXT_PLAIN)
