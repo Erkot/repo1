@@ -1,7 +1,8 @@
-package service;
+package com.repo1.service;
 
+import com.repo1.constraint.NotEmptySearchField;
 import com.repo1.entity.User;
-import helper.Conn;
+import com.repo1.helper.Conn;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,17 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Resource;
 import javax.ejb.Stateless;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -29,6 +24,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Stateless
 @Path("/auth")
@@ -55,7 +51,15 @@ public class AuthRepo {
           return Conn.getInstance().MysqlConn;
    }
     
-
+   @GET
+    @Path("/f")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String f() throws SQLException, NamingException, ClassNotFoundException {
+//                Class myClass = Class.forName("net.sf.log4jdbc.DriverSpy");
+//System.out.println("Number of public methods: " + myClass.getMethods().length);
+        return "fff!";
+    }
+    
     @GET
     @Path("/e")
     @Produces(MediaType.TEXT_PLAIN)
@@ -122,8 +126,10 @@ public class AuthRepo {
      */
     @Path("/repoLogin")
     @POST
+    @NotNull
+    @NotEmptySearchField
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String repoLogin(@FormParam("user") String username, @FormParam("pass") String pass, @Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException {
+    public String repoLogin(@NotBlank(message = "search.string.empty") @FormParam("username") String username, @FormParam("pass") String pass, @Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException {
 
         User u = new User();
         u.setPassword(pass);
@@ -132,7 +138,14 @@ public class AuthRepo {
         response.sendRedirect("/repo1/home.html");
         return username + " " + pass;
     }
+    @Path("/tester")
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public String tester(@FormParam("username") String username, @FormParam("pass") String pass) throws IOException {
 
+        System.out.println("sdfsd");
+        return username + " " + pass;
+    }
     /**
      * Register by the repo form
      *

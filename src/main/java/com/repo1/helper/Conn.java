@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package helper;
+package com.repo1.helper;
 
 import com.mysql.jdbc.ConnectionImpl;
 import java.sql.Connection;

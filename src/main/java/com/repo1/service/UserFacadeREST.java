@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service;
+package com.repo1.service;
 
 import com.repo1.entity.User;
 import java.util.List;

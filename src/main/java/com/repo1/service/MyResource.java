@@ -1,4 +1,4 @@
-package service;
+package com.repo1.service;
 
 import com.repo1.entity.User;
 import javax.persistence.EntityManager;
