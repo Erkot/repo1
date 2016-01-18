@@ -4,12 +4,16 @@ import com.repo1.constraint.NotEmptySearchField;
 import com.repo1.entity.User;
 import com.repo1.helper.Conn;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,34 +33,13 @@ import org.hibernate.validator.constraints.NotBlank;
 @Stateless
 @Path("/auth")
 public class AuthRepo {
-//extends AbstractFacade<User>
-//    @PersistenceContext(unitName = "com.repo1")
-//    private EntityManager em;
-//    @Resource(name = "jdbc/repo1")
-//    private DataSource ds;
 
     private List<String> authCodes = new ArrayList<>();
+    private Map tokenMap = new HashMap();
+    String token = null;
 
-//    @Context 
-//    private HttpServletRequest request;
-//    public AuthRepo() {
-//        super(User.class);
-//    }
     public Connection getDs() {
-//        javax.naming.Context initContext = new InitialContext();
-//        javax.naming.Context ctx = (javax.naming.Context) initContext.lookup("java:/comp/env");
-//        DataSource ds = (DataSource) ctx.lookup("jdbc/repo1");
-//        return ds.getConnection();
         return Conn.getInstance().MysqlConn;
-    }
-
-    @GET
-    @Path("/f")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String f() throws SQLException, NamingException, ClassNotFoundException {
-//                Class myClass = Class.forName("net.sf.log4jdbc.DriverSpy");
-//System.out.println("Number of public methods: " + myClass.getMethods().length);
-        return "fff!";
     }
 
     @GET
@@ -79,12 +62,6 @@ public class AuthRepo {
         return "Got it!" + ((User) request.getSession().getAttribute("user")).getUsername();
     }
 
-//    @GET
-//    @Path("/count")
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public String countREST() {
-//        return String.valueOf(super.count());
-//    }
     /**
      * Triggered by the Bakar
      *
@@ -126,29 +103,32 @@ public class AuthRepo {
     @Path("/repoLogin")
     @POST
     @NotNull
-    @NotEmptySearchField
+//    @NotEmptySearchField
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String repoLogin(@NotBlank(message = "search.string.empty") @FormParam("username") String username, @FormParam("pass") String pass, @Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException {
+    public String repoLogin(@FormParam("username") String username, @FormParam("pass") String pass, @Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException {
 
         User u = new User();
         u.setPassword(pass);
         u.setUsername(username);
         request.getSession().setAttribute("user", u);
-        response.sendRedirect("/repo1/home.html");
+        //create the token
+        token = username + new BigInteger(130, new SecureRandom()).toString(32);
+        tokenMap.put(token, u);
+        //send token back to user
+//        response.sendRedirect("/repo1/home.html?t=" + token);
         return username + " " + pass;
     }
 
-    @Path("/tester")
-    @POST
-    @NotNull
-//    @NotEmptySearchField
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String tester(@NotBlank(message = "search.string.empty") @FormParam("username") String username, @FormParam("pass") String pass) throws IOException {
-
-        System.out.println("sdfsd");
-        return username + " " + pass;
-    }
-
+//    @Path("/tester")
+//    @POST
+//    @NotNull
+////    @NotEmptySearchField
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    public String tester(@NotBlank(message = "search.string.empty") @FormParam("username") String username, @FormParam("pass") String pass) throws IOException {
+//
+//        System.out.println("sdfsd");
+//        return username + " " + pass;
+//    }
     /**
      * Register by the repo form
      *
@@ -158,7 +138,7 @@ public class AuthRepo {
     @Path("/repoReg")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void repoReg(@FormParam("Username") String username, @FormParam("password") String password) throws SQLException, NamingException {
+    public void repoReg(@FormParam("Username") String username, @FormParam("password") String password, @Context final HttpServletRequest request, @Context final HttpServletResponse response) throws SQLException, NamingException, IOException {
         PreparedStatement ps = getDs().prepareStatement("Select id from user where username = ?");
         ps.setString(1, username);
         ResultSet rs = ps.executeQuery();
@@ -169,14 +149,16 @@ public class AuthRepo {
             ps.setString(1, username);
             ps.setString(2, password);
             ps.executeUpdate();
-//            User user = new User();
-//            user.setUsername(username);
-//            user.setPassword(password);
-//            EntityTransaction etx = em.getTransaction();
-//            etx.begin();
-//            super.create(user);
-//                    getEntityManager().persist(user);
-//            etx.commit();
+            //create the user object
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+            //create the token
+            token = username + new BigInteger(130, new SecureRandom()).toString(32);
+            tokenMap.put(token, user);
+            //send token back to user
+            response.sendRedirect("/repo1/home.html?t=" + token);
+
         } else {
             // notify that the user already exist
         }
@@ -196,10 +178,4 @@ public class AuthRepo {
     public String bakarReg(@FormParam("user") String user, @FormParam("pass") String pass, @FormParam("repo") String repo) {
         return user + " " + pass + " " + repo;
     }
-
-//    @Override
-//    protected EntityManager getEntityManager() {
-//        em = Persistence.createEntityManagerFactory("com.repo1").createEntityManager();
-//        return em;
-//    }
 }

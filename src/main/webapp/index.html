@@ -42,7 +42,7 @@
             <div class="form-group">
               <input id="pass" name="pass" type="password" placeholder="Password" class="form-control">
             </div>
-          <button type="submit" onclick="tester(event)" class="btn btn-success">Sign in</button>
+          <button type="submit" onclick="login(event)" class="btn btn-success">Sign in</button>
           </form>
         </div><!--/.navbar-collapse -->
       </div>
@@ -139,18 +139,20 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 
      <script type="text/javascript">
-         function tester(event){ 
+         function login(event){ 
              event.preventDefault();
          $.ajax({
     type:'POST',
-    data:{username:'',pass:'bbb'},     
-    url:'http://localhost:8888/repo1/rest/auth/tester',
-    success:function(data,textStatus) {
-          if(data.hasValidationError){
+    data:{username:'j',pass:'asd'},     
+    url:'http://localhost:8888/repo1/rest/auth/repoLogin',
+    success:function(result,textStatus) {
+          if(response.hasValidationError){
 //              $("#username").addClass("error inputTxtError")
-              alert("error"+data+textStatus);
+              alert("error"+result+textStatus);
         }else{
-             alert(data+textStatus);
+//             success
+             alert(result);
+//            window.location.replace("http://localhost:8888/repo1/home.html?="+res);
         }
     },
      error: function (xhr, ajaxOptions, thrownError) {
