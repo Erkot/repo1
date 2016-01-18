@@ -42,16 +42,15 @@ public class AuthRepo {
 //    public AuthRepo() {
 //        super(User.class);
 //    }
-    
-    public Connection getDs(){
+    public Connection getDs() {
 //        javax.naming.Context initContext = new InitialContext();
 //        javax.naming.Context ctx = (javax.naming.Context) initContext.lookup("java:/comp/env");
 //        DataSource ds = (DataSource) ctx.lookup("jdbc/repo1");
 //        return ds.getConnection();
-          return Conn.getInstance().MysqlConn;
-   }
-    
-   @GET
+        return Conn.getInstance().MysqlConn;
+    }
+
+    @GET
     @Path("/f")
     @Produces(MediaType.TEXT_PLAIN)
     public String f() throws SQLException, NamingException, ClassNotFoundException {
@@ -59,7 +58,7 @@ public class AuthRepo {
 //System.out.println("Number of public methods: " + myClass.getMethods().length);
         return "fff!";
     }
-    
+
     @GET
     @Path("/e")
     @Produces(MediaType.TEXT_PLAIN)
@@ -138,14 +137,18 @@ public class AuthRepo {
         response.sendRedirect("/repo1/home.html");
         return username + " " + pass;
     }
+
     @Path("/tester")
     @POST
+    @NotNull
+//    @NotEmptySearchField
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String tester(@FormParam("username") String username, @FormParam("pass") String pass) throws IOException {
+    public String tester(@NotBlank(message = "search.string.empty") @FormParam("username") String username, @FormParam("pass") String pass) throws IOException {
 
         System.out.println("sdfsd");
         return username + " " + pass;
     }
+
     /**
      * Register by the repo form
      *
@@ -160,12 +163,12 @@ public class AuthRepo {
         ps.setString(1, username);
         ResultSet rs = ps.executeQuery();
         int fetchSize = rs.getFetchSize();
-        if (fetchSize==0) {
-        // new user
-           ps = getDs().prepareStatement("insert into user (username,password) values (?,?)");
-           ps.setString(1, username);
-           ps.setString(2, password);
-           ps.executeUpdate();
+        if (fetchSize == 0) {
+            // new user
+            ps = getDs().prepareStatement("insert into user (username,password) values (?,?)");
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.executeUpdate();
 //            User user = new User();
 //            user.setUsername(username);
 //            user.setPassword(password);
@@ -175,7 +178,7 @@ public class AuthRepo {
 //                    getEntityManager().persist(user);
 //            etx.commit();
         } else {
-        // notify that the user already exist
+            // notify that the user already exist
         }
     }
 

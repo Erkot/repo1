@@ -16,6 +16,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/jumbotron.css" rel="stylesheet">
+    
+    <link href="css/repo1.css" rel="stylesheet">
   </head>
 
   <body>
@@ -40,7 +42,7 @@
             <div class="form-group">
               <input id="pass" name="pass" type="password" placeholder="Password" class="form-control">
             </div>
-          <button type="submit" onclick="tester()" class="btn btn-success">Sign in</button>
+          <button type="submit" onclick="tester(event)" class="btn btn-success">Sign in</button>
           </form>
         </div><!--/.navbar-collapse -->
       </div>
@@ -136,19 +138,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 
-     <script>
-         function tester(){  event.preventDefault();
+     <script type="text/javascript">
+         function tester(event){ 
+             event.preventDefault();
          $.ajax({
     type:'POST',
-    data:{username:'aaa',pass:'bbb'},     
+    data:{username:'',pass:'bbb'},     
     url:'http://localhost:8888/repo1/rest/auth/tester',
     success:function(data,textStatus) {
           if(data.hasValidationError){
-              alert(data+textStatus);
+//              $("#username").addClass("error inputTxtError")
+              alert("error"+data+textStatus);
         }else{
-             alert("error"+data+textStatus);
+             alert(data+textStatus);
         }
-    }
+    },
+     error: function (xhr, ajaxOptions, thrownError) {
+//        alert(xhr.status+thrownError);
+          $("#username").addClass("error inputTxtError")
+      }
 });
 }
     </script>
