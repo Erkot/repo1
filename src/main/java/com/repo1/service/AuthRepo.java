@@ -54,7 +54,12 @@ public class AuthRepo {
         }
         return "Got it!" + executeUpdate;
     }
-
+    @GET
+    @Path("/cookie")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String testCookie(@Context final HttpServletRequest request) {
+        return "Got it!" + ((User) request.getSession().getAttribute("user")).getUsername();
+    }
     @GET
     @Path("/home2")
     @Produces(MediaType.TEXT_PLAIN)
