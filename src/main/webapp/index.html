@@ -139,13 +139,13 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 
      <script type="text/javascript">
-         function login(event){ 
+         function login(event,response){ 
              event.preventDefault();
          $.ajax({
     type:'POST',
     data:{username:'j',pass:'asd'},     
     url:'http://localhost:8888/repo1/rest/auth/repoLogin',
-    success:function(result,textStatus) {
+    success:function(result,textStatus,response) {
           if(response.hasValidationError){
 //              $("#username").addClass("error inputTxtError")
               alert("error"+result+textStatus);
@@ -155,7 +155,7 @@
 //            window.location.replace("http://localhost:8888/repo1/home.html?="+res);
         }
     },
-     error: function (xhr, ajaxOptions, thrownError) {
+     error: function (xhr, ajaxOptions, thrownError,response) {
         alert(xhr.status+thrownError);
           $("#username").addClass("error inputTxtError")
       }
