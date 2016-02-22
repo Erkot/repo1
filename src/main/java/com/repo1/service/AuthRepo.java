@@ -5,6 +5,8 @@ import com.repo1.entity.User;
 import com.repo1.helper.Conn;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +29,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
+import javax.ws.rs.core.Response;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Stateless
@@ -54,12 +59,19 @@ public class AuthRepo {
         }
         return "Got it!" + executeUpdate;
     }
+    
     @GET
     @Path("/cookie")
     @Produces(MediaType.TEXT_PLAIN)
-    public String testCookie(@Context final HttpServletRequest request) {
-        return "Got it!" + ((User) request.getSession().getAttribute("user")).getUsername();
+    public Response testCookie() throws URISyntaxException {
+        System.out.println("xxxxx");
+        Cookie cookie = new Cookie("xxxxx", "eeeee!");
+        return Response.seeOther(new URI("/e"))
+                //.ok()
+               .cookie(new NewCookie(cookie, "ccc", 60*24, false))
+               .build();
     }
+    
     @GET
     @Path("/home2")
     @Produces(MediaType.TEXT_PLAIN)
@@ -105,12 +117,13 @@ public class AuthRepo {
      * @return
      * @throws IOException
      */
+    
     @Path("/repoLogin")
     @POST
     @NotNull
 //    @NotEmptySearchField
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String repoLogin(@FormParam("username") String username, @FormParam("pass") String pass, @Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException {
+    public String repoLogin(@FormParam("username") String username, @FormParam("pass") String pass, @Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException, URISyntaxException {
 
         User u = new User();
         u.setPassword(pass);
@@ -122,6 +135,11 @@ public class AuthRepo {
         //send token back to user
 //        response.sendRedirect("/repo1/home.html?t=" + token);
         return username + " " + pass;
+// Cookie cookie = new Cookie("xxxxx", "eeeee!");
+//        return Response.seeOther(new URI("/repo1/home.html?t=" + token))
+//                //.ok()
+//               .cookie(new NewCookie(cookie, "ccc", 60*24, false))
+//               .build();
     }
 
 //    @Path("/tester")
@@ -170,7 +188,7 @@ public class AuthRepo {
     }
 
     /**
-     * Register by the repo form
+     * Register by the bakar form
      *
      * @param user
      * @param pass
