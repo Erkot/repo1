@@ -122,24 +122,27 @@ public class AuthRepo {
     @POST
     @NotNull
 //    @NotEmptySearchField
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public String repoLogin(@FormParam("username") String username, @FormParam("pass") String pass, @Context final HttpServletRequest request, @Context final HttpServletResponse response) throws IOException, URISyntaxException {
-
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//     ,@Context final HttpServletRequest request, @Context final HttpServletResponse response
+    public Response repoLogin(@FormParam("username") String username, @FormParam("pass") String pass) {
+        System.out.println("repoLogin");
+        
         User u = new User();
         u.setPassword(pass);
         u.setUsername(username);
-        request.getSession().setAttribute("user", u);
+//        request.getSession().setAttribute("user", u);
         //create the token
         token = username + new BigInteger(130, new SecureRandom()).toString(32);
         tokenMap.put(token, u);
         //send token back to user
 //        response.sendRedirect("/repo1/home.html?t=" + token);
-        return username + " " + pass;
-// Cookie cookie = new Cookie("xxxxx", "eeeee!");
-//        return Response.seeOther(new URI("/repo1/home.html?t=" + token))
-//                //.ok()
-//               .cookie(new NewCookie(cookie, "ccc", 60*24, false))
-//               .build();
+//        return username + " " + pass;
+ Cookie cookie = new Cookie("xxxxx", "eeeee!");
+        return Response
+//                .seeOther(new URI("/repo1/home.html?t=" + token))
+               .ok().entity("ytyytyt")
+               .cookie(new NewCookie(cookie, "ccc", 60*24, false))
+               .build();
     }
 
 //    @Path("/tester")
@@ -197,8 +200,23 @@ public class AuthRepo {
      */
     @Path("/bakarReg")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public String bakarReg(@FormParam("user") String user, @FormParam("pass") String pass, @FormParam("repo") String repo) {
+        System.out.println("bakarReg");
+        testPost("asdas");
         return user + " " + pass + " " + repo;
+    }
+    
+    @Path("/testPost")
+    @POST
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response testPost(String repo) {
+        System.out.println("testPost");
+         Cookie cookie = new Cookie("xxxxx", "eeeee!");
+        return Response
+//                .seeOther(new URI("/repo1/home.html?t=" + token))
+               .ok()
+               .cookie(new NewCookie(cookie, "ccc", 60*24, false))
+               .build();
     }
 }

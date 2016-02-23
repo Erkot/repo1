@@ -1,0 +1,2 @@
+curl -d "user=a&pass=b&repo=c" http://localhost:8888/repo1/rest/auth/bakarReg
+curl -d "user=a&pass=b&repo=c" http://localhost:8888/repo1/rest/auth/testPost
