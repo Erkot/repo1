@@ -22,9 +22,25 @@ and open the template in the editor.
 hh<div id="myP" >home </div>
         
         <script>
-            function aaa(){$.get('http://localhost:8888/bakar/rest/auth/home2', function(responseText) {
-                    document.getElementById("myP").innerHTML=responseText;
+            
+            function aaa(){
+                alert(getCookie('token'));
+       $.get('http://localhost:8888/repo1/rest/auth/home2?token='+getCookie('token'), function(responseText) {
+                   document.getElementById("myP").innerHTML=responseText;
    // alert(responseText);
-});}</script>
+});
+
+}
+        function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+} 
+        </script>
     </body>
 </html>

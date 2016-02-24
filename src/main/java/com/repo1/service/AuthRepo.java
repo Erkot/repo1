@@ -3,6 +3,7 @@ package com.repo1.service;
 import com.repo1.constraint.NotEmptySearchField;
 import com.repo1.entity.User;
 import com.repo1.helper.Conn;
+import com.repo1.helper.TokenUserCache;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -47,6 +48,20 @@ public class AuthRepo {
         return Conn.getInstance().MysqlConn;
     }
 
+//    public AuthRepo() {
+//        if (tokenMap.size() == 0) {
+//            tokenMap = TokenUserCache.getInstance().tokenMap;
+//        }
+//    }
+
+    public void putUserByToken(String token, User user){
+        TokenUserCache.putUserOnToken(token, user);
+    }
+    
+    public User getUserByToken(String token){
+        return TokenUserCache.getUserByToken(token);
+    }
+    
     @GET
     @Path("/e")
     @Produces(MediaType.TEXT_PLAIN)
@@ -59,7 +74,7 @@ public class AuthRepo {
         }
         return "Got it!" + executeUpdate;
     }
-    
+
     @GET
     @Path("/cookie")
     @Produces(MediaType.TEXT_PLAIN)
@@ -68,15 +83,16 @@ public class AuthRepo {
         Cookie cookie = new Cookie("xxxxx", "eeeee!");
         return Response.seeOther(new URI("/e"))
                 //.ok()
-               .cookie(new NewCookie(cookie, "ccc", 60*24, false))
-               .build();
+                .cookie(new NewCookie(cookie, "ccc", 60 * 24, false))
+                .build();
     }
-    
+
     @GET
     @Path("/home2")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt2(@Context final HttpServletRequest request) {
-        return "Got it!" + ((User) request.getSession().getAttribute("user")).getUsername();
+    public String getIt2(@QueryParam("token") String token) {
+        User u = getUserByToken(token);
+        return "Got it!" + u.getUsername();
     }
 
     /**
@@ -117,7 +133,6 @@ public class AuthRepo {
      * @return
      * @throws IOException
      */
-    
     @Path("/repoLogin")
     @POST
     @NotNull
@@ -126,23 +141,24 @@ public class AuthRepo {
 //     ,@Context final HttpServletRequest request, @Context final HttpServletResponse response
     public Response repoLogin(@FormParam("username") String username, @FormParam("pass") String pass) {
         System.out.println("repoLogin");
-        
+
         User u = new User();
         u.setPassword(pass);
         u.setUsername(username);
 //        request.getSession().setAttribute("user", u);
         //create the token
         token = username + new BigInteger(130, new SecureRandom()).toString(32);
-        tokenMap.put(token, u);
+        putUserByToken(token, u);
+//        tokenMap.put(token, u);
         //send token back to user
 //        response.sendRedirect("/repo1/home.html?t=" + token);
 //        return username + " " + pass;
- Cookie cookie = new Cookie("xxxxx", "eeeee!");
+        Cookie cookie = new Cookie("token", token, "/repo1", "localhost");
         return Response
-//                .seeOther(new URI("/repo1/home.html?t=" + token))
-               .ok().entity("ytyytyt")
-               .cookie(new NewCookie(cookie, "ccc", 60*24, false))
-               .build();
+                //                .seeOther(new URI("/repo1/home.html?t=" + token))
+                .ok().entity("ytyytyt")
+                .cookie(new NewCookie(cookie, "ccc", 60 * 24, false))
+                .build();
     }
 
 //    @Path("/tester")
@@ -206,17 +222,17 @@ public class AuthRepo {
         testPost("asdas");
         return user + " " + pass + " " + repo;
     }
-    
+
     @Path("/testPost")
     @POST
 //    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response testPost(String repo) {
         System.out.println("testPost");
-         Cookie cookie = new Cookie("xxxxx", "eeeee!");
+        Cookie cookie = new Cookie("xxxxx", "eeeee!");
         return Response
-//                .seeOther(new URI("/repo1/home.html?t=" + token))
-               .ok()
-               .cookie(new NewCookie(cookie, "ccc", 60*24, false))
-               .build();
+                //                .seeOther(new URI("/repo1/home.html?t=" + token))
+                .ok()
+                .cookie(new NewCookie(cookie, "ccc", 60 * 24, false))
+                .build();
     }
 }
