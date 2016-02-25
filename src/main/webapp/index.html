@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-
+    <link rel="import" href="home.html">
     <title>Repo1</title>
 
     <!-- Bootstrap core CSS -->
@@ -20,7 +20,7 @@
     <link href="css/repo1.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body onload="aaa()">
     
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -141,7 +141,7 @@
      <script type="text/javascript">
          function login(event,response){ 
              var username = document.getElementById("user").value;
-             alert(username);
+//             alert(username);
              event.preventDefault();
          $.ajax({
     type:'POST',
@@ -153,9 +153,9 @@
               alert("error"+result+textStatus);
         }else{
 //             success
-             alert(result+"999");
-             $(location).attr('href', 'http://localhost:8888/repo1/home.html?token='+result)
-//            window.location.replace("http://localhost:8888/repo1/rest/auth/home.html?="+result);
+//             alert(result+"999");
+              location.reload(); 
+        //     $(location).attr('href', 'http://localhost:8888/repo1/home.html?token='+result)
         }
     },
      error: function (xhr, ajaxOptions, thrownError,response) {
@@ -165,5 +165,38 @@
 });
 }
     </script>
+    
+    <div id="myP" >home </div>
+        
+        <script>
+            
+            function aaa(){
+                var doc= document.querySelector('link[rel="import"]').import;
+//                var text = doc.querySelector('.doc');
+//var clone = document.importNode(text.content, true);
+//document.querySelector('#container').appendChild(clone);
+                alert(document.querySelector('link[rel="import"]'));
+       $.get('http://localhost:8888/repo1/rest/auth/home2?token='+getCookie('token'), function(responseText) {
+                   document.getElementById("myP").innerHTML=responseText;
+                  
+   // alert(responseText);
+});
+ if(document.getElementById("myP").innerHTML===null){
+//                       alert(null)
+                   }else{
+//                       alert(document.getElementById("myP").innerHTML)
+                   }
+}
+        function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+} 
+        </script>
   </body>
 </html>

@@ -1,46 +1,5 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        
-    </head>
-    <body onload="aaa()">
-<!--       <div> <form name="loginForm" method="post" action="loginServlet">
-            Username: <input type="text" name="username"/> <br/>
-            Password: <input type="password" name="password"/> <br/>
-            <input type="submit" value="Login" />
-        </form>
-       </div>--><div></div>
-hh<div id="myP" >home </div>
-        
-        <script>
-            
-            function aaa(){
-                alert(getCookie('token'));
-       $.get('http://localhost:8888/repo1/rest/auth/home2?token='+getCookie('token'), function(responseText) {
-                   document.getElementById("myP").innerHTML=responseText;
-   // alert(responseText);
-});
-
-}
-        function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    return "";
-} 
-        </script>
-    </body>
-</html>
+<div class="doc">
+<h2>Title of the Document</h2>
+<p><span>Author: Ajeet Yadav</span></p>
+<p>CreativeWebLogix: Convert Existing Site to Responsive</p>
+</div>
