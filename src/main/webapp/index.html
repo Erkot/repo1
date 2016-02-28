@@ -1,169 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="../../favicon.ico">
 
-    <title>Repo1</title>
+        <title>Repo1</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="css/jumbotron.css" rel="stylesheet">
-    
-    <link href="css/repo1.css" rel="stylesheet">
-  </head>
+        <!-- Custom styles for this template -->
+        <link href="css/jumbotron.css" rel="stylesheet">
 
-  <body>
-    
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Repo1</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right">
-          <!--<form action="/repo1/rest/auth/tester" method="post" class="navbar-form navbar-right">-->
-            <div class="form-group">
-              <input id="user" name="username" type="text" placeholder="Username" class="form-control">
+        <link href="css/repo1.css" rel="stylesheet">
+        <script src="js/repo.js"></script>
+    </head>
+
+    <body onload="checkLogin()">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Repo1</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-right">
+                        <!--<form action="/repo1/rest/auth/tester" method="post" class="navbar-form navbar-right">-->
+                        <div class="form-group">
+                            <input id="user" name="username" type="text" placeholder="Username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input id="pass" name="pass" type="password" placeholder="Password" class="form-control">
+                        </div>
+                        <button type="submit" onclick="login(event)" class="btn btn-success">Sign in</button>
+                    </form>
+                </div><!--/.navbar-collapse -->
             </div>
-            <div class="form-group">
-              <input id="pass" name="pass" type="password" placeholder="Password" class="form-control">
+        </nav>
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Own your data!</h1>
+                <p>Repo1 is the largest repository for Erkot app's</p>
+                <!--        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>-->
+                <a href="manager.html">Log-In</a>
+
             </div>
-          <button type="submit" onclick="login(event)" class="btn btn-success">Sign in</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
-
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Own your data!</h1>
-        <p>Repo1 is the largest repository for Erkot app's</p>
-<!--        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>-->
-            <a href="manager.html">Log-In</a>
-      
-      </div>
-    </div>
-
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row" style="border-bottom: 1px solid #888; padding-bottom: 1em">
-          <div class="col-md-7"><img src="icon/cloud_256.png" style="margin-left: 25%"></div>
-          <div class="col-md-5">
-              <form class="form-horizontal" action='/repo1/rest/auth/repoReg' method="POST">
-  <fieldset>
-    <div id="legend">
-      <legend>Register</legend>
-    </div>
-    <div class="control-group">
-      <!-- Username -->
-      <label class="control-label"  for="Fullname">Fullname</label>
-      <div class="controls">
-        <input type="text" id="Fullname" name="Fullname" placeholder="Full Name" class="input-xlarge">
-<!--        <p class="help-block">Please provide your Name</p>-->
-      </div>
-    </div>
- 
-    <div  style="float: left; position: relative; width: 50%">
-      <!-- E-mail -->
-      <label class="control-label" for="Username">Username</label>
-      <div class="controls">
-        <input type="text" id="Username" name="Username" placeholder="Username" class="input-xlarge">
-<!--        <p class="help-block">Username can contain any letters or numbers, without spaces</p>-->
-      </div>
-    </div>
- 
-      <div  style="float: left; width: 50%">
-      <!-- Password-->
-      <label class="control-label" for="Password">Password</label>
-      <div class="controls">
-        <input type="password" id="Password" name="password" placeholder="Password" class="input-xlarge">
-<!--        <p class="help-block">Password should be at least 4 characters</p>-->
-      </div>
-    </div>
- 
-      <div class="control-group" style="padding-top: 2em; position: relative; float: left">
-      <!-- Button -->
-      <div class="controls">
-        <input type="submit" value="Register" class="btn btn-success"/>
-      </div>
-    </div>
-  </fieldset>
-</form>
-          </div>
-      </div>
-<!--      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-      </div>
-      -->
-      <hr>
 
-      <footer>
-        <p>&copy; 2016 Repo1, Inc.</p>
-      </footer>
-    </div> <!-- /container -->
+        <div class="container">
+            <!-- Example row of columns -->
+            <div class="row" style="border-bottom: 1px solid #888; padding-bottom: 1em">
+                <div class="col-md-7"><img src="icon/cloud_256.png" style="margin-left: 25%"></div>
+                <div class="col-md-5">
+                    <form class="form-horizontal" action='/repo1/rest/auth/repoReg' method="POST">
+                        <fieldset>
+                            <div id="legend">
+                                <legend>Register</legend>
+                            </div>
+                            <div class="control-group">
+                                <!-- Username -->
+                                <label class="control-label"  for="Fullname">Fullname</label>
+                                <div class="controls">
+                                    <input type="text" id="Fullname" name="Fullname" placeholder="Full Name" class="input-xlarge">
+                                    <!--        <p class="help-block">Please provide your Name</p>-->
+                                </div>
+                            </div>
+
+                            <div  style="float: left; position: relative; width: 50%">
+                                <!-- E-mail -->
+                                <label class="control-label" for="Username">Username</label>
+                                <div class="controls">
+                                    <input type="text" id="Username" name="Username" placeholder="Username" class="input-xlarge">
+                                    <!--        <p class="help-block">Username can contain any letters or numbers, without spaces</p>-->
+                                </div>
+                            </div>
+
+                            <div  style="float: left; width: 50%">
+                                <!-- Password-->
+                                <label class="control-label" for="Password">Password</label>
+                                <div class="controls">
+                                    <input type="password" id="Password" name="password" placeholder="Password" class="input-xlarge">
+                                    <!--        <p class="help-block">Password should be at least 4 characters</p>-->
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="padding-top: 2em; position: relative; float: left">
+                                <!-- Button -->
+                                <div class="controls">
+                                    <input type="submit" value="Register" class="btn btn-success"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <!--      <div class="row">
+                    <div class="col-md-4">
+                      <h2>Heading</h2>
+                      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                    </div>
+                    <div class="col-md-4">
+                      <h2>Heading</h2>
+                      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                   </div>
+                    <div class="col-md-4">
+                      <h2>Heading</h2>
+                      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+                    </div>
+                  </div>
+            -->
+            <hr>
+
+            <footer>
+                <p>&copy; 2016 Repo1, Inc.</p>
+            </footer>
+        </div> <!-- /container -->
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-
-     <script type="text/javascript">
-         function login(event,response){ 
-             var username = document.getElementById("user").value;
-             alert(username);
-             event.preventDefault();
-         $.ajax({
-    type:'POST',
-    data:{username:username,pass:'asd'},     
-    url:'http://localhost:8888/repo1/rest/auth/repoLogin',
-    success:function(result,textStatus,response) {
-          if(response.hasValidationError){
-//              $("#username").addClass("error inputTxtError")
-              alert("error"+result+textStatus);
-        }else{
-//             success
-             alert(result+"999");
-             $(location).attr('href', 'http://localhost:8888/repo1/home.html?token='+result)
-//            window.location.replace("http://localhost:8888/repo1/rest/auth/home.html?="+result);
-        }
-    },
-     error: function (xhr, ajaxOptions, thrownError,response) {
-        alert(xhr.status+thrownError);
-          $("#username").addClass("error inputTxtError")
-      }
-});
-}
-    </script>
-  </body>
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+        <script type="text/javascript">
+            function checkLogin() {
+                if (getCookie('token') !== "") {
+                    $.get('http://localhost:8888/repo1/rest/auth/home2?token=' + getCookie('token'), function (responseText) {
+                        $(location).attr('href', 'http://localhost:8888/repo1/home.html?token=' + responseText)
+                    });
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function login(event, response) {
+                var username = document.getElementById("user").value;
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    data: {username: username, pass: 'asd'},
+                    url: 'http://localhost:8888/repo1/rest/auth/repoLogin',
+                    success: function (result, textStatus, response) {
+                        if (response.hasValidationError) {
+                            //              $("#username").addClass("error inputTxtError")
+                            alert("error" + result + textStatus);
+                        } else {
+                            //             success
+                            createCookie('token',result,5);
+                            $(location).attr('href', 'http://localhost:8888/repo1/home.html?token=' + result)
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError, response) {
+                        alert(xhr.status + thrownError);
+                        $("#username").addClass("error inputTxtError")
+                    }
+                });
+            }
+        </script>
+    </body>
 </html>

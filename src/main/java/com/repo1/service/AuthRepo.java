@@ -30,10 +30,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
-import javax.ws.rs.core.Response;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Stateless
@@ -48,20 +45,14 @@ public class AuthRepo {
         return Conn.getInstance().MysqlConn;
     }
 
-//    public AuthRepo() {
-//        if (tokenMap.size() == 0) {
-//            tokenMap = TokenUserCache.getInstance().tokenMap;
-//        }
-//    }
-
-    public void putUserByToken(String token, User user){
+    public void putUserByToken(String token, User user) {
         TokenUserCache.putUserOnToken(token, user);
     }
-    
-    public User getUserByToken(String token){
+
+    public User getUserByToken(String token) {
         return TokenUserCache.getUserByToken(token);
     }
-    
+
     @GET
     @Path("/e")
     @Produces(MediaType.TEXT_PLAIN)
@@ -76,23 +67,15 @@ public class AuthRepo {
     }
 
     @GET
-    @Path("/cookie")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response testCookie() throws URISyntaxException {
-        System.out.println("xxxxx");
-        Cookie cookie = new Cookie("xxxxx", "eeeee!");
-        return Response.seeOther(new URI("/e"))
-                //.ok()
-                .cookie(new NewCookie(cookie, "ccc", 60 * 24, false))
-                .build();
-    }
-
-    @GET
     @Path("/home2")
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt2(@QueryParam("token") String token) {
         User u = getUserByToken(token);
-        return "Got it!" + u.getUsername();
+        if (u != null) {
+            return "Got it!" + u.getUsername();
+        } else {
+            return "nouser";
+        }
     }
 
     /**
@@ -139,7 +122,7 @@ public class AuthRepo {
 //    @NotEmptySearchField
 //    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 //     ,@Context final HttpServletRequest request, @Context final HttpServletResponse response
-    public Response repoLogin(@FormParam("username") String username, @FormParam("pass") String pass) {
+    public String repoLogin(@FormParam("username") String username, @FormParam("pass") String pass) {
         System.out.println("repoLogin");
 
         User u = new User();
@@ -152,25 +135,14 @@ public class AuthRepo {
 //        tokenMap.put(token, u);
         //send token back to user
 //        response.sendRedirect("/repo1/home.html?t=" + token);
-//        return username + " " + pass;
-        Cookie cookie = new Cookie("token", token, "/repo1", "localhost");
-        return Response
-                //                .seeOther(new URI("/repo1/home.html?t=" + token))
-                .ok().entity("ytyytyt")
-                .cookie(new NewCookie(cookie, "ccc", 60 * 24, false))
-                .build();
+        return "token:" + token;
+//        Cookie cookie = new Cookie("token", token, "/repo1", "localhost");
+//        return Response
+//                .ok().entity("ytyytyt")
+//                .cookie(new NewCookie(cookie, "ccc", 60 * 24, false))
+//                .build();
     }
 
-//    @Path("/tester")
-//    @POST
-//    @NotNull
-////    @NotEmptySearchField
-//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-//    public String tester(@NotBlank(message = "search.string.empty") @FormParam("username") String username, @FormParam("pass") String pass) throws IOException {
-//
-//        System.out.println("sdfsd");
-//        return username + " " + pass;
-//    }
     /**
      * Register by the repo form
      *
@@ -219,20 +191,6 @@ public class AuthRepo {
 //    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public String bakarReg(@FormParam("user") String user, @FormParam("pass") String pass, @FormParam("repo") String repo) {
         System.out.println("bakarReg");
-        testPost("asdas");
         return user + " " + pass + " " + repo;
-    }
-
-    @Path("/testPost")
-    @POST
-//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response testPost(String repo) {
-        System.out.println("testPost");
-        Cookie cookie = new Cookie("xxxxx", "eeeee!");
-        return Response
-                //                .seeOther(new URI("/repo1/home.html?t=" + token))
-                .ok()
-                .cookie(new NewCookie(cookie, "ccc", 60 * 24, false))
-                .build();
     }
 }
